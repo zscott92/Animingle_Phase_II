@@ -24,17 +24,21 @@ function getMatch(faceResponse) {
     let rand = Math.random() * 100;
 
     const emotion = (function getEmotion (emotions) {
-        for (emotion in emotions) {
-            rand -= emotions[emotion];
+        for (e in emotions) {
+            rand -= emotions[e];
             if (rand <= 0) {
-                return emotion;
+                return e;
             }
         }
     }) (emotions);
 
+    console.log(emotion);
+
     const key = transform[emotion];
     
-    const queryString = "https://api.jikan.moe/v3/search/character/?" + $.params({q: key});
+    const queryString = "https://api.jikan.moe/v3/search/character/?" + $.param({q: key});
+
+    console.log(queryString);
 
     $.get(queryString).then(
         function(results) {
@@ -50,7 +54,7 @@ getMatch( {
     faces:  [
         {
             attributes: {
-                "emotion": {
+                "emotions": {
                         "sadness": 0.378,
                         "neutral": 75.48,
                         "disgust": 0.004,
