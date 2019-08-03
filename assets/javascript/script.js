@@ -46,55 +46,57 @@ function getMatch(faceResponse) {
             let sample = getRandom(results.results, resultCount > 9 ? 10 : resultCount);
 
             Promise.all(
-                // sample.map((item, index) => {
-                //     return new Promise(resolve => setTimeout(resolve, 550 * index)).then(
-                //         () => $.get(`https://api.jikan.moe/v3/character/${item.mal_id}`)
-                //     )
-                // })
-
-                // Will return an array of ajax promises
-                sample.map(async (item, index) => {
+                sample.map(async (item, index) => { // Will return an array of ajax promises
                     await new Promise(resolve => setTimeout(resolve, 550 * index));
                     return $.get(`https://api.jikan.moe/v3/character/${item.mal_id}`);
                 })
-            ).then(
-                results => {
-                    results.map(
-                        entry => {
-                            let about;
-                            if (entry.about.match(/\(Source: VNDB\)/g)) { // VNDB description
-                                about = {
-                                    hair : entry.about.match(/Hair:\s?(.*[a-zA-z]*?)/)[0],
-                                    eyes : entry.about.match(/Eyes:\s?(.*[a-zA-z]*?)/)[0],
-                                    clothes : entry.about.match(/Clothes:\s?(.*[a-zA-z]*?)/)[0],
-                                    personality : entry.about.match(/Personality:\s?(.*[a-zA-z]*?)/)[0],
-                                    role : entry.about.match(/Role:\s?(.*[a-zA-z]*?)/)[0],
-                                    height: entry.about.match(/Height:\s?(.*[a-zA-z]*?)/)[0],
-                                    measurements: entry.about.match(/Bust-Waist-Hips:\s?(.*[a-zA-z]*?)/)[0],
-                                    subjectOf: entry.about.match(/Subject of:\s?(.*[a-zA-z]*?)/)[0],
-
-
-                                }
-                                
-
-                            }
-
-                            // TODO add more filters
-
-                            // Kancolle wiki
-                            // generic no voice actor message
-                            // filter out certain content
-
-
-
-                        }
-                    )
+            ).then( // return of function will be promise-ified
+                function (results) { //results is an array of objects that we get back from the character endpoint
+                    results = results.map(result => parseAbout(result.about));
+                    // Apply each filter to our results
+                    results = profileFilters.reduce( (a, filter) => a.filter(filter), results);
                 }
             )
         }
     )
+}
 
+// takes in the about object from the ajax request, outputs an object full of 
+function parseAbout(about) {
+    // VNDB formatted bio
+    let match = about.match(/(?<stats>(?:.+:.+\n)+)(?<about>.+?)?\n?(?<source>(?:\(Source:.+\).*|No voice.*))?$/);
+    if (match) {
+        const stats = match.groups.stats;
+        output.stats = {
+            hair: stats.match(/Hair:\s?(.*[a-zA-z]*?)/),
+            eyes: stats.match(/Eyes:\s?(.*[a-zA-z]*?)/),
+            clothes: stats.match(/Clothes:\s?(.*[a-zA-z]*?)/),
+            personality: stats.match(/Personality:\s?(.*[a-zA-z]*?)/),
+            role: stats.match(/Role:\s?(.*[a-zA-z]*?)/),
+            height: stats.match(/Height:\s?(.*[a-zA-z]*?)/),
+            measurements: stats.match(/(?:Bust-Waist-Hips|B-W-H|Three sizes):\s?(.*[a-zA-z]*?)/),
+            age: stats.match(/Age:\s?(.*[a-zA-z]*?)/),
+            birdthday: stats.match(/Birthday:\s?(.*[a-zA-z]*?)/),
+            subjectOf: stats.match(/Subject of:\s?(.*[a-zA-z]*?)/),
+        }
+        Object.keys(about).forEach(k => about[k] = about[k] && object[k][0]);
+        output.about = match.groups.about;
+        output.raw = about;
+        output.source = match.groups.source;
 
+        return output;
+    }
+    // other bios
+    match = about.match(/(?<about>(?:.+\n?)+?)(?<source>(?:\(Source:.+\).*|No voice.*))?$/);
+    if (match) {
+        output = {
+            about: match.groups.about,
+            source: match.groups.source,
+            raw: about,
+        }
+
+        return output;
+    }
 }
 
 // https://stackoverflow.com/questions/19269545/how-to-get-n-no-elements-randomly-from-an-array
@@ -113,6 +115,7 @@ function getRandom(arr, n) {
 }
 
 
+// for debugging
 getMatch({
     faces: [
         {
