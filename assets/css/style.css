@@ -3,10 +3,12 @@ section {
     justify-content: center;
     flex-wrap: wrap;
 }
-    .media { 
+
+.media { 
     min-width: 0;
     margin: 5px;
  }
+
  img {
     width: 500px;
     max-width: 100%; 
@@ -22,24 +24,20 @@ section {
     font: impact;
     font-weight: 600;
     font-size: 48px;
-    margin-left: 13%;
+    margin: 0 auto;
 }
 
-.subtitle {
-    font-style: italic;
-    font-size: 24px;
-    color: black;
-}
 .text {
     font-size: 18px;
-    padding: 15px;
 }
+
 a {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 15px;
+    margin: 15px;
 }
+
 .splash {
     /* background-image: url("../images/splash_background.jpg"); */
     min-height: 100vh;
