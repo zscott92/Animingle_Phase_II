@@ -42,48 +42,55 @@ function getMatch(faceResponse) {
 
     return $.get(queryString).then(
         function (results) {
-            //TODO filter results
-            console.log(results);
-
             const resultCount = results.results.length;
             let sample = getRandom(results.results, resultCount > 9 ? 10 : resultCount);
-            console.log(sample);
 
-
-
-            return Promise.all(
-
+            Promise.all(
                 // sample.map((item, index) => {
                 //     return new Promise(resolve => setTimeout(resolve, 550 * index)).then(
                 //         () => $.get(`https://api.jikan.moe/v3/character/${item.mal_id}`)
                 //     )
                 // })
 
+                // Will return an array of ajax promises
                 sample.map(async (item, index) => {
                     await new Promise(resolve => setTimeout(resolve, 550 * index));
                     return $.get(`https://api.jikan.moe/v3/character/${item.mal_id}`);
                 })
+            ).then(
+                results => {
+                    results.map(
+                        entry => {
+                            let about;
+                            if (entry.about.match(/\(Source: VNDB\)/g)) { // VNDB description
+                                about = {
+                                    hair : entry.about.match(/Hair:\s?(.*[a-zA-z]*?)/)[0],
+                                    eyes : entry.about.match(/Eyes:\s?(.*[a-zA-z]*?)/)[0],
+                                    clothes : entry.about.match(/Clothes:\s?(.*[a-zA-z]*?)/)[0],
+                                    personality : entry.about.match(/Personality:\s?(.*[a-zA-z]*?)/)[0],
+                                    role : entry.about.match(/Role:\s?(.*[a-zA-z]*?)/)[0],
+                                    height: entry.about.match(/Height:\s?(.*[a-zA-z]*?)/)[0],
+                                    measurements: entry.about.match(/Bust-Waist-Hips:\s?(.*[a-zA-z]*?)/)[0],
+                                    subjectOf: entry.about.match(/Subject of:\s?(.*[a-zA-z]*?)/)[0],
 
-                // (function requestNext(iter, accumulator) {
-                //     const next = iter.next();
-                //     if (next) {
-                //         return iter.map( (item, index) => {
-                //             return new Promise(resolve =>  setTimeout( resolve , 550 * index)).then(
-                //                 () => $.get(`https://api.jikan.moe/v3/character/${item.mal_id}`)
-                //             )
-                //         })
 
-                //         // iter.map( async (item, index) => {
-                //         //     await new Promise(resolve => setTimeout(resolve, 550 * index));
-                //         //     return $.get(`https://api.jikan.moe/v3/character/${item.mal_id}`);
-                //         // })
+                                }
+                                
 
-                //     } else {
-                //         return accumulator;
-                //     }
-                // })(sample, [])
+                            }
 
-            );
+                            // TODO add more filters
+
+                            // Kancolle wiki
+                            // generic no voice actor message
+                            // filter out certain content
+
+
+
+                        }
+                    )
+                }
+            )
         }
     )
 
