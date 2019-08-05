@@ -1,25 +1,6 @@
-section {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.media { 
+.media {
     min-width: 0;
     margin: 5px;
- }
-
-/* don't select tags */
-
- /* img {
-    width: 500px;
-    max-width: 100%; 
-    max-height: 500px; 
-    padding: 35px;
-  } */
- 
-.CharacterPage {
-    background: goldenrod;
 }
 
 .title {
@@ -41,12 +22,12 @@ a {
 }
 
 .splash {
-    /* background-image: url("../images/splash_background.jpg"); */
     min-height: 100vh;
     zoom: 1;
-	filter: alpha(opacity=70);
+    filter: alpha(opacity=70);
     opacity: 0.7;
     position: relative;
+    background: white !important;
 }
 
 .splash::before {
@@ -63,7 +44,6 @@ a {
     filter: blur(2px);
 }
 
-
 #splashTitle {
     display: flex;
     flex-direction: column;
@@ -75,15 +55,17 @@ a {
     font-size: 30px;
     color: purple;
     z-index: 10;
+    text-shadow: 0 0 20px white;
 }
 
-#splashButton {
+#splash-button {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     padding: 15px;
     margin: 0 auto;
+    box-shadow: 0 0 10px 10px #ffffff99;
 }
 
 #splashSection {
@@ -92,6 +74,8 @@ a {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    justify-content: center;
+    /* flex-wrap: wrap; */
 }
 
 .profile {
@@ -101,7 +85,7 @@ a {
     width: 100vw;
     background-color: #fff;
     border-radius: 6px;
-    box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+    box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
     color: #4a4a4a;
     display: block;
     padding: 1.25rem;
@@ -128,7 +112,6 @@ a {
 
 .loading-bar {
     text-align: center;
-    padding: 15px;
     margin: auto;
     position: relative;
 }

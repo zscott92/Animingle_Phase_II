@@ -89,7 +89,7 @@ function parseAbout(about) {
             height: stats.match(/Height:\s?(.*[a-zA-z]*?)/),
             measurements: stats.match(/(?:Bust-Waist-Hips|B-W-H|Three sizes):\s?(.*[a-zA-z]*?)/),
             age: stats.match(/Age:\s?(.*\w*?)/),
-            birdthday: stats.match(/Birthday:\s?(.*[a-zA-z]*?)/),
+            birthday: stats.match(/Birthday:\s?(.*[a-zA-z]*?)/),
             subjectOf: stats.match(/Subject of:\s?(.*[a-zA-z]*?)/),
         }
         Object.keys(output.stats).forEach(k => output.stats[k] = output.stats[k] && output.stats[k][1]);
@@ -169,24 +169,7 @@ function filterRepeats(arr) {
 let loadedProfiles = new Set([]);
 let loadedNames = new Set([]);
 let loading = false;
-let faceData = {
-    faces: [
-        {
-            attributes: {
-                "emotions": {
-                    "sadness": 100 / 7,
-                    "neutral": 100 / 7,
-                    "disgust": 100 / 7,
-                    "anger": 100 / 7,
-                    "surprise": 100 / 7,
-                    "fear": 100 / 7,
-                    "happiness": 100 / 7
-                }
-
-            }
-        }
-    ]
-};
+let faceData;
 
 function loadMore() {
     loading = true;
@@ -220,12 +203,32 @@ function loadMore() {
 //     }
 // )
 
-loadMore();
+// loadMore();
 
-$(window).ready(function () {
+function requestFaceData(selectImgFile) {
+    let data = new FormData();
+    data.append("api_key", "ck3PwAKq4ZDsnbx77dyZG3lEk_YDwCIz");
+    data.append("api_secret", "Epcw27lJerS2w28JQvd2DYhG_Rs-LjFJ");
+    //data.append("image_url", "https://cdn.cnn.com/cnnnext/dam/assets/190802164147-03-trump-rally-0801-large-tease.jpg");
+    data.append("image_file", selectImgFile);
+    data.append("return_attributes", "gender,age,smiling,headpose,emotion,ethnicity,mouthstatus,eyegaze");
 
-    // Capture scrolling and scroll pages back to top when we scroll off of them
-    let currentPage = 0;
+    console.log(data);
+    return $.ajax({
+        url: "https://api-us.faceplusplus.com/facepp/v3/detect",
+        method: "POST",
+        contentType: false,
+        mimeType: "multipart/form-data",
+        processData: false,
+        data: data
+    })
+}
+
+let currentPage = 0;
+function setupProfileSpace() {
+    $('#display-area').empty().append(
+        $('<div>').addClass('content').attr('id', 'profile-space')
+    )
     $('#profile-space').on('scroll', function (event) {
         let page = $('#profile-space').scrollLeft() / window.innerWidth;
         if ((Math.abs(page - currentPage) > 1)) {
@@ -251,26 +254,24 @@ $(window).ready(function () {
             loadMore();
         }
     });
+}
 
-    $('#splash-button').on('click', function () {
-        $('input[type=file]').trigger('click');
-    });
-
-    $('input[type=file]').change(function () {
-        const vals = $(this).val();
-        val = vals.length ? vals.split('\\').pop() : '';
-        const fr = new FileReader();
-        const bin = fr.readAsBinaryString(val);
-
-        // Get do face++ request here
-        // faceFunction().then(
-        //     function (results) {
-        //         faceData = results;
-        //         setupProfileSpace();
-        //         loadMore();
-        //     }
-        // )
-
-    });
+$('#splash-button').on('click', function () {
+    $('input[type=file]').trigger('click');
 });
+
+$('input[type=file]').change(function () {
+    const vals = $(this).val();
+    val = vals.length ? vals.split('\\').pop() : '';
+    const fr = new FileReader();
+    const bin = fr.readAsBinaryString(val);
+    requestFaceData(bin).then(
+        function (results) {
+            faceData = results;
+            setupProfileSpace();
+            loadMore();
+        }
+    );
+});
+
 
