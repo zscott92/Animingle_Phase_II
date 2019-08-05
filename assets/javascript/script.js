@@ -39,7 +39,7 @@ function getMatch(faceResponse) {
             if (!sample) { // If we have exhausted the results of this query, make a new one
                 return getMatch(faceResponse);
             }
-            
+
 
 
             return Promise.all(
@@ -89,7 +89,7 @@ function parseAbout(about) {
             height: stats.match(/Height:\s?(.*[a-zA-z]*?)/),
             measurements: stats.match(/(?:Bust-Waist-Hips|B-W-H|Three sizes):\s?(.*[a-zA-z]*?)/),
             age: stats.match(/Age:\s?(.*\w*?)/),
-            birdthday: stats.match(/Birthday:\s?(.*[a-zA-z]*?)/),
+            birthday: stats.match(/Birthday:\s?(.*[a-zA-z]*?)/),
             subjectOf: stats.match(/Subject of:\s?(.*[a-zA-z]*?)/),
         }
         Object.keys(output.stats).forEach(k => output.stats[k] = output.stats[k] && output.stats[k][1]);
@@ -115,7 +115,7 @@ function parseAbout(about) {
 
         const age = match.groups.about.match(/(\d) year old/i);
         if (age) {
-            output.stats = {age: age[1]}
+            output.stats = { age: age[1] }
         }
         output.about = output.about && output.about.replace(/\(Source:.+\).*|No voice.*/i, '');
 
@@ -169,24 +169,7 @@ function filterRepeats(arr) {
 let loadedProfiles = new Set([]);
 let loadedNames = new Set([]);
 let loading = false;
-let faceData = {
-    faces: [
-        {
-            attributes: {
-                "emotions": {
-                    "sadness": 100 / 7,
-                    "neutral": 100 / 7,
-                    "disgust": 100 / 7,
-                    "anger": 100 / 7,
-                    "surprise": 100 / 7,
-                    "fear": 100 / 7,
-                    "happiness": 100 / 7
-                }
-
-            }
-        }
-    ]
-};
+let faceData;
 
 function loadMore() {
     loading = true;
@@ -220,12 +203,13 @@ function loadMore() {
 //     }
 // )
 
-loadMore();
+// loadMore();
 
-$(window).ready(function () {
-
-    // Capture scrolling and scroll pages back to top when we scroll off of them
-    let currentPage = 0;
+let currentPage = 0;
+function setupProfileSpace() {
+    $('#display-area').empty().append(
+        $('<div>').addClass('content').attr('id', 'profile-space')
+    )
     $('#profile-space').on('scroll', function (event) {
         let page = $('#profile-space').scrollLeft() / window.innerWidth;
         if ((Math.abs(page - currentPage) > 1)) {
@@ -250,14 +234,50 @@ $(window).ready(function () {
         }
 
         if (page == loadedProfiles.size - 1 && !loading) { // We have just scrolled to the last page
-
             loadMore();
-
         }
+    });
+}
 
-        //TODO check if we've reached the end and fetch more profiles.
+// Placeholder function for getting face data
+function faceFunction() {
+    return new Promise(resolve => {
+        resolve();
+    }).then(
+        function () {
+            return {
+                faces: [
+                    {
+                        attributes: {
+                            "emotions": {
+                                "sadness": 100 / 7,
+                                "neutral": 100 / 7,
+                                "disgust": 100 / 7,
+                                "anger": 100 / 7,
+                                "surprise": 100 / 7,
+                                "fear": 100 / 7,
+                                "happiness": 100 / 7
+                            }
+                        }
+                    }
+                ]
+            };
+        }
+    );
+}
 
-        // console.log($('#profile-space').scrollLeft())
+
+$(window).ready(function () {
+
+    $('#splash-button').on('click', function () {
+        // Get do face++ request here
+        faceFunction().then(
+            function (results) {
+                faceData = results;
+                setupProfileSpace();
+                loadMore();
+            }
+        )
     });
 });
 
