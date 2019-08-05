@@ -1,21 +1,11 @@
 function getMatch(faceResponse) {
     const emotions = faceResponse.faces[0].attributes.emotions;
-    // "emotion": {
-    //     "sadness": 0.378,
-    //     "neutral": 75.48,
-    //     "disgust": 0.004,
-    //     "anger": 0.004,
-    //     "surprise": 23.765,
-    //     "fear": 0.004,
-    //     "happiness": 0.363
-    //   }
-
 
     const transform = {
         anger: "yandere",
         neutral: "deredere",
         disgust: "tsundere",
-        sadnes: "kuudere",
+        sadness: "kuudere",
         fear: "yandere",
         happiness: "moe",
         surprise: "tsundere",
@@ -35,7 +25,6 @@ function getMatch(faceResponse) {
     console.log(emotion);
 
     const key = transform[emotion];
-
     const queryString = "https://api.jikan.moe/v3/search/character/?" + $.param({ q: key });
 
     console.log(queryString);
@@ -43,7 +32,15 @@ function getMatch(faceResponse) {
     return $.get(queryString).then(
         function (results) {
             const resultCount = results.results.length;
-            let sample = getRandom(results.results, resultCount > 9 ? 10 : resultCount);
+
+            let sample = getRandom(filterRepeats(results.results), resultCount > 9 ? 10 : resultCount);
+            console.log(sample);
+
+            if (!sample) { // If we have exhausted the results of this query, make a new one
+                return getMatch(faceResponse);
+            }
+            
+
 
             return Promise.all(
                 sample.map(async (item, index) => { // Will return an array of ajax promises
@@ -91,14 +88,17 @@ function parseAbout(about) {
             role: stats.match(/Role:\s?(.*[a-zA-z]*?)/),
             height: stats.match(/Height:\s?(.*[a-zA-z]*?)/),
             measurements: stats.match(/(?:Bust-Waist-Hips|B-W-H|Three sizes):\s?(.*[a-zA-z]*?)/),
-            age: stats.match(/Age:\s?(.*[a-zA-z]*?)/),
+            age: stats.match(/Age:\s?(.*\w*?)/),
             birdthday: stats.match(/Birthday:\s?(.*[a-zA-z]*?)/),
             subjectOf: stats.match(/Subject of:\s?(.*[a-zA-z]*?)/),
         }
-        Object.keys(about).forEach(k => about[k] = about[k] && about[k][0]);
-        output.about = match.groups.about.replace(/\(Source:.+\).*|No voice.*/i, '');
+        Object.keys(output.stats).forEach(k => output.stats[k] = output.stats[k] && output.stats[k][1]);
+
+
+        output.about = match.groups.about && match.groups.about.replace(/\(Source:.+\).*|No voice.*/i, '');
         output.raw = about;
-        output.source = match.groups.about.match(/\(Source:.+\).*|No voice.*/i)[0];
+        output.source = match.groups.about && match.groups.about.match(/\(Source:.+\).*|No voice.*/i);
+        output.source = output.source && output.source[0];
 
         return output;
     }
@@ -113,6 +113,12 @@ function parseAbout(about) {
             raw: about,
         }
 
+        const age = match.groups.about.match(/(\d) year old/i);
+        if (age) {
+            output.stats = {age: age[1]}
+        }
+        output.about = output.about && output.about.replace(/\(Source:.+\).*|No voice.*/i, '');
+
         return output;
     }
 }
@@ -123,7 +129,7 @@ function getRandom(arr, n) {
         len = arr.length,
         taken = new Array(len);
     if (n > len)
-        throw new RangeError("getRandom: more elements taken than available");
+        return false;
     while (n--) {
         var x = Math.floor(Math.random() * len);
         result[n] = arr[x in taken ? taken[x] : x];
@@ -132,28 +138,126 @@ function getRandom(arr, n) {
     return result;
 }
 
+// function filterRepeats(arr) {
+//     return arr.filter(character => {
+//         loadedProfiles.forEach(profile => {
+//             const profName = profile.name.replace(',', '').split(' ');
+//             const charName = character.name.replace(',', '').split(' ');
+//             console.log(profName, charName);
+//             if ((profName[0] == charName[0] && profName[1] == charName[1]) ||
+//                 (profName[0] == charName[1] && profName[1] == charName[0])) {
+//                 return false;
+//             }
+//         });
+//         return true;
+//     })
+// }
 
-// for debugging
-getMatch({
+function filterRepeats(arr) {
+    return arr.filter(character => {
+        if (loadedNames.has(character.name)) {
+            return false;
+        } else {
+            loadedNames.add(character.name);
+            return true;
+        }
+    })
+}
+
+
+
+let loadedProfiles = new Set([]);
+let loadedNames = new Set([]);
+let loading = false;
+let faceData = {
     faces: [
         {
             attributes: {
                 "emotions": {
-                    "sadness": 0.378,
-                    "neutral": 75.48,
-                    "disgust": 0.004,
-                    "anger": 0.004,
-                    "surprise": 23.765,
-                    "fear": 0.004,
-                    "happiness": 0.363
+                    "sadness": 100 / 7,
+                    "neutral": 100 / 7,
+                    "disgust": 100 / 7,
+                    "anger": 100 / 7,
+                    "surprise": 100 / 7,
+                    "fear": 100 / 7,
+                    "happiness": 100 / 7
                 }
 
             }
         }
     ]
+};
 
-}).then(
-    function (results) {
-        console.log(results);
-    }
-)
+function loadMore() {
+    loading = true;
+    $('#profile-space').append(
+        $('<div>').addClass('profile splash').attr('id', 'loading-card').append(
+            $('<progress class="progress is-small is-primary loading-bar" max="100">')
+        )
+    );
+    getMatch(faceData).then(function (results) {
+        $('#loading-card').remove();
+        results.forEach(result => loadedProfiles.add(result));
+        $('#profile-space').append(
+            ...results.map(profile => {
+                return profile.buildNode()
+            })
+        );
+        loading = false;
+    });
+}
+
+// // for debugging
+// getMatch(faceData).then(
+//     function (results) {
+//         console.log(results);
+//         results.forEach(result => loadedProfiles.add(result));
+//         $('#profile-space').append(
+//             ...results.map(profile => {
+//                 return profile.buildNode()
+//             })
+//         );
+//     }
+// )
+
+loadMore();
+
+$(window).ready(function () {
+
+    // Capture scrolling and scroll pages back to top when we scroll off of them
+    let currentPage = 0;
+    $('#profile-space').on('scroll', function (event) {
+        let page = $('#profile-space').scrollLeft() / window.innerWidth;
+        if ((Math.abs(page - currentPage) > 1)) {
+
+            page = Math.floor(page) + (currentPage - page > 1 ? 1 : 0);
+            $('#profile-space').css({ overflow: 'hidden' });
+            setTimeout(function () {
+                $('#profile-space').css({ overflow: '' })
+            }, 10);
+
+
+            $('#profile-space').scrollLeft(page * window.innerWidth);
+            console.log('scrolling locked to page ' + page)
+        }
+
+
+        if (!(page % 1) && page != currentPage) { // we have scrolled to a new page
+            console.log(page);
+            console.log(currentPage);
+            $(`#profile-space .profile:nth-child(${currentPage + 1})`).scrollTop(0);
+            currentPage = page;
+        }
+
+        if (page == loadedProfiles.size - 1 && !loading) { // We have just scrolled to the last page
+
+            loadMore();
+
+        }
+
+        //TODO check if we've reached the end and fetch more profiles.
+
+        // console.log($('#profile-space').scrollLeft())
+    });
+});
+

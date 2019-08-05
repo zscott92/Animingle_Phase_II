@@ -9,12 +9,14 @@ section {
     margin: 5px;
  }
 
- img {
+/* don't select tags */
+
+ /* img {
     width: 500px;
     max-width: 100%; 
     max-height: 500px; 
     padding: 35px;
-  }
+  } */
  
 .CharacterPage {
     background: goldenrod;
@@ -81,7 +83,7 @@ a {
     justify-content: center;
     text-align: center;
     padding: 15px;
-    margin: 60px;
+    margin: 0 auto;
 }
 
 #splashSection {
@@ -91,4 +93,44 @@ a {
     flex-direction: column;
     height: 100vh;
 }
+
+.profile {
+    scroll-snap-align: start;
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100vw;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+    color: #4a4a4a;
+    display: block;
+    padding: 1.25rem;
+    overflow-y: scroll;
+}
+
+.profile img {
+    max-height: 497.77px;
+    object-fit: cover;
+    object-position: 0 0;
+}
+
+#profile-space {
+    scroll-snap-type: x mandatory;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+}
+
+#profile-space>* {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.loading-bar {
+    text-align: center;
+    padding: 15px;
+    margin: auto;
+    position: relative;
+}
+
 
