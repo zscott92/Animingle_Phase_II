@@ -114,6 +114,7 @@ a {
     text-align: center;
     margin: auto;
     position: relative;
+    box-shadow: 0 0 10px 10px #ffffff77;
 }
 
 #loading-card {
