@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Faceid Post Request</title>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script src="./assets/javascript/faceid.js"></script>
+</head>
+<body>
+
+<form action="https://api-us.faceplusplus.com/facepp/v3/detect" method="POST" enctype="multipart/form-data">
+
+
+    <input type="text" name="api_key" value="ck3PwAKq4ZDsnbx77dyZG3lEk_YDwCIz"/>
+    <input type="text" name="api_secret" value="Epcw27lJerS2w28JQvd2DYhG_Rs-LjFJ"/>
+
+    <input type="text" name="return_attributes" value="gender,age,smiling,headpose,emotion,ethnicity,mouthstatus,eyegaze"/>
+
+
+    <input id="submitbtn" type="submit" value="Submit" />
+
+</form>
+
+</body>
+</html>
