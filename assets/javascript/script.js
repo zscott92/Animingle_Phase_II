@@ -1,5 +1,5 @@
 function getMatch(faceResponse) {
-    const emotions = faceResponse.faces[0].attributes.emotions;
+    const emotions = faceResponse.faces[0].attributes.emotion;
 
     const transform = {
         anger: "yandere",
@@ -172,12 +172,7 @@ let loading = false;
 let faceData;
 
 function loadMore() {
-    loading = true;
-    $('#profile-space').append(
-        $('<div>').addClass('profile splash').attr('id', 'loading-card').append(
-            $('<progress class="progress is-small is-primary loading-bar" max="100">')
-        )
-    );
+    drawLoadScreen();
     getMatch(faceData).then(function (results) {
         $('#loading-card').remove();
         results.forEach(result => loadedProfiles.add(result));
@@ -188,6 +183,17 @@ function loadMore() {
         );
         loading = false;
     });
+}
+
+function drawLoadScreen() {
+    if (!loading) {
+        loading = true;
+        $('#profile-space').append(
+            $('<div>').addClass('profile splash').attr('id', 'loading-card').append(
+                $('<progress class="progress is-small is-primary loading-bar" max="100">')
+            )
+        );
+    }
 }
 
 // // for debugging
@@ -221,7 +227,7 @@ function requestFaceData(selectImgFile) {
         mimeType: "multipart/form-data",
         processData: false,
         data: data
-    })
+    });
 }
 
 let currentPage = 0;
@@ -260,15 +266,16 @@ $('#splash-button').on('click', function () {
     $('input[type=file]').trigger('click');
 });
 
-$('input[type=file]').change(function () {
-    const vals = $(this).val();
-    val = vals.length ? vals.split('\\').pop() : '';
-    const fr = new FileReader();
-    const bin = fr.readAsBinaryString(val);
-    requestFaceData(bin).then(
+$('input[type=file]').change(function (e) {
+    // const vals = $(this).val();
+    // val = vals.length ? vals.split('\\').pop() : '';
+    // const fr = new FileReader();
+    // const bin = fr.readAsBinaryString(val);
+    setupProfileSpace();
+    drawLoadScreen();
+    requestFaceData(e.target.files[0]).then(
         function (results) {
-            faceData = results;
-            setupProfileSpace();
+            faceData = JSON.parse(results);
             loadMore();
         }
     );
