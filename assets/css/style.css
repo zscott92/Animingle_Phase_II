@@ -83,7 +83,7 @@ a {
     justify-content: center;
     text-align: center;
     padding: 15px;
-    margin: 60px;
+    margin: 0 auto;
 }
 
 #splashSection {
@@ -124,6 +124,13 @@ a {
 #profile-space>* {
     flex-grow: 0;
     flex-shrink: 0;
+}
+
+.loading-bar {
+    text-align: center;
+    padding: 15px;
+    margin: auto;
+    position: relative;
 }
 
 
