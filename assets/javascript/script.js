@@ -39,7 +39,7 @@ function getMatch(faceResponse) {
             if (!sample) { // If we have exhausted the results of this query, make a new one
                 return getMatch(faceResponse);
             }
-            
+
 
 
             return Promise.all(
@@ -115,7 +115,7 @@ function parseAbout(about) {
 
         const age = match.groups.about.match(/(\d) year old/i);
         if (age) {
-            output.stats = {age: age[1]}
+            output.stats = { age: age[1] }
         }
         output.about = output.about && output.about.replace(/\(Source:.+\).*|No voice.*/i, '');
 
@@ -236,11 +236,9 @@ $(window).ready(function () {
                 $('#profile-space').css({ overflow: '' })
             }, 10);
 
-
             $('#profile-space').scrollLeft(page * window.innerWidth);
             console.log('scrolling locked to page ' + page)
         }
-
 
         if (!(page % 1) && page != currentPage) { // we have scrolled to a new page
             console.log(page);
@@ -250,14 +248,29 @@ $(window).ready(function () {
         }
 
         if (page == loadedProfiles.size - 1 && !loading) { // We have just scrolled to the last page
-
             loadMore();
-
         }
+    });
 
-        //TODO check if we've reached the end and fetch more profiles.
+    $('#splash-button').on('click', function () {
+        $('input[type=file]').trigger('click');
+    });
 
-        // console.log($('#profile-space').scrollLeft())
+    $('input[type=file]').change(function () {
+        const vals = $(this).val();
+        val = vals.length ? vals.split('\\').pop() : '';
+        const fr = new FileReader();
+        const bin = fr.readAsBinaryString(val);
+
+        // Get do face++ request here
+        // faceFunction().then(
+        //     function (results) {
+        //         faceData = results;
+        //         setupProfileSpace();
+        //         loadMore();
+        //     }
+        // )
+
     });
 });
 
