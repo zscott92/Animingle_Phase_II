@@ -205,6 +205,25 @@ function loadMore() {
 
 // loadMore();
 
+function requestFaceData(selectImgFile) {
+    let data = new FormData();
+    data.append("api_key", "ck3PwAKq4ZDsnbx77dyZG3lEk_YDwCIz");
+    data.append("api_secret", "Epcw27lJerS2w28JQvd2DYhG_Rs-LjFJ");
+    //data.append("image_url", "https://cdn.cnn.com/cnnnext/dam/assets/190802164147-03-trump-rally-0801-large-tease.jpg");
+    data.append("image_file", selectImgFile);
+    data.append("return_attributes", "gender,age,smiling,headpose,emotion,ethnicity,mouthstatus,eyegaze");
+
+    console.log(data);
+    return $.ajax({
+        url: "https://api-us.faceplusplus.com/facepp/v3/detect",
+        method: "POST",
+        contentType: false,
+        mimeType: "multipart/form-data",
+        processData: false,
+        data: data
+    })
+}
+
 let currentPage = 0;
 function setupProfileSpace() {
     $('#display-area').empty().append(
@@ -220,11 +239,9 @@ function setupProfileSpace() {
                 $('#profile-space').css({ overflow: '' })
             }, 10);
 
-
             $('#profile-space').scrollLeft(page * window.innerWidth);
             console.log('scrolling locked to page ' + page)
         }
-
 
         if (!(page % 1) && page != currentPage) { // we have scrolled to a new page
             console.log(page);
@@ -239,45 +256,22 @@ function setupProfileSpace() {
     });
 }
 
-// Placeholder function for getting face data
-function faceFunction() {
-    return new Promise(resolve => {
-        resolve();
-    }).then(
-        function () {
-            return {
-                faces: [
-                    {
-                        attributes: {
-                            "emotions": {
-                                "sadness": 100 / 7,
-                                "neutral": 100 / 7,
-                                "disgust": 100 / 7,
-                                "anger": 100 / 7,
-                                "surprise": 100 / 7,
-                                "fear": 100 / 7,
-                                "happiness": 100 / 7
-                            }
-                        }
-                    }
-                ]
-            };
+$('#splash-button').on('click', function () {
+    $('input[type=file]').trigger('click');
+});
+
+$('input[type=file]').change(function () {
+    const vals = $(this).val();
+    val = vals.length ? vals.split('\\').pop() : '';
+    const fr = new FileReader();
+    const bin = fr.readAsBinaryString(val);
+    requestFaceData(bin).then(
+        function (results) {
+            faceData = results;
+            setupProfileSpace();
+            loadMore();
         }
     );
-}
-
-
-$(window).ready(function () {
-
-    $('#splash-button').on('click', function () {
-        // Get do face++ request here
-        faceFunction().then(
-            function (results) {
-                faceData = results;
-                setupProfileSpace();
-                loadMore();
-            }
-        )
-    });
 });
+
 

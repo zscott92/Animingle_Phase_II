@@ -121,3 +121,7 @@ a {
     flex-direction: column;
     justify-content: center;
 }
+
+#file-upload {
+    display: none;
+}
