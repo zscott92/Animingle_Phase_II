@@ -169,7 +169,7 @@
         'timeMin': (new Date()).toISOString(),
         'showDeleted': false,
         'singleEvents': true,
-        'maxResults': 40,
+        'maxResults': 50,
         'timeMax': '2019-08-30T23:59:59Z',
         'orderBy': 'startTime'
       }).then(function (response) {
@@ -178,13 +178,14 @@
           for (i = 0; i < events.length; i++) {
             var event = events[i];
             var when = event.start.dateTime;
-            var dayIsolated = when.substr(8, 2);
+            let dayIsolated = when.substr(8, 2);
             console.log(dayIsolated);
-            var calendarNumber = String(document.getElementsByClassName("number")[i].innerHTML);
+            let calendarNumber = String(document.getElementsByClassName("number")[i].innerHTML);
             console.log(calendarNumber);
             if (dayIsolated === calendarNumber) {
               $(".number").val(dayIsolated).append('<span class = "eventScheduled">' + event.summary + '</span>');
             }
+            continue;
           }
         }
       });
