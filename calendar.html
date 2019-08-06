@@ -106,6 +106,10 @@
      */
     var authorizeButton = $("#authorizeButton");
     var signoutButton = $("#signoutButton");
+
+    function handleClientLoad() {
+        gapi.load('client:auth2', initClient);
+      }
   
     function initClient() {
       gapi.client.init({
@@ -130,7 +134,6 @@
      *  Called when the signed in status changes, to update the UI
      *  appropriately. After a sign-in, the API is called.
      */
-    var isSignedIn;
 
     function updateSigninStatus(isSignedIn) {
       if (isSignedIn) {
