@@ -196,7 +196,7 @@
           for (i = 0; i < events.length; i++) {
             var event = events[i];
             var when = event.start.dateTime;
-            var dayIsolated = when.substr(5, 2);
+            var dayIsolated = when.substr(5, 2)[0];
             console.log(dayIsolated);
             var calendarNumber = String(document.getElementsByClassName("number")[i].innerHTML);
             console.log(calendarNumber);
