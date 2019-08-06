@@ -28,6 +28,7 @@ class Profile {
 
     return stats;
   }
+ 
 
   buildNode() {
     return $("<div>")
@@ -41,7 +42,9 @@ class Profile {
               .addClass("profile-name")
               .text(this.name),
             $("<p>").text(this.bio),
-            $("<button>").text("Schedule Date")
+            $("<button>").addId("schedule-button").text("Schedule").click(function () {
+              window.location.href = "../../calendar.html";
+            })
           )
       );
   }

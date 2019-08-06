@@ -23,12 +23,12 @@ function checkAuth() {
 }
 
 function handleAuthResult(authResult) {
-  var scheduleButton = document.getElementById("schedule-button");
+  var selectButton = document.getElementById("select-button");
   var resultPanel = document.getElementById("result-panel");
   var resultTitle = document.getElementById("result-title");
 
   if (authResult && !authResult.error) {
-    authorizeButton.style.visibility = "hidden";
+    selectButton.style.visibility = "hidden";
     resultPanel.className = resultPanel.className.replace(
       /(?:^|\s)panel-danger(?!\S)/g,
       ""
@@ -37,9 +37,9 @@ function handleAuthResult(authResult) {
     resultTitle.innerHTML = "Application Authorized";
     makeApiCall();
   } else {
-    authorizeButton.style.visibility = "visible";
+    selectButton.style.visibility = "visible";
     resultPanel.className += " panel-danger";
-    authorizeButton.onclick = handleAuthClick;
+    selectButton.onclick = handleAuthClick;
   }
 }
 

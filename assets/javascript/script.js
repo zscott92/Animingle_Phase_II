@@ -299,11 +299,6 @@ $("#splash-button").on("click", function() {
   $("input[type=file]").trigger("click");
 });
 
-function change_page() {
-  window.location.href = "../../calendar.html";
-}
-
-<input type="button" value="create page" onclick="change_page()" />;
 
 $("input[type=file]").change(function(e) {
   // const vals = $(this).val();
