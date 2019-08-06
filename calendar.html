@@ -187,6 +187,7 @@
         'timeMin': (new Date()).toISOString(),
         'showDeleted': false,
         'singleEvents': true,
+        'maxResults': 10,
         'timeMax': '2019-08-31T23:59:59Z',
         'orderBy': 'startTime'
       }).then(function (response) {
@@ -197,7 +198,7 @@
             var when = event.start.dateTime;
             var dayIsolated = when.substr(5, 2);
             console.log(dayIsolated);
-            var calendarNumber = parseInt(document.getElementsByClassName("number").innerHTML);
+            var calendarNumber = String(document.getElementsByClassName("number")[i].innerHTML);
             console.log(calendarNumber);
             if (dayIsolated === calendarNumber) {
               $(".number").append('<span class = "eventScheduled">' + event.summary + '</span>');
