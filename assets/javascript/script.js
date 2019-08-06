@@ -234,7 +234,8 @@ let currentPage = 0;
 function setupProfileSpace() {
     $('#display-area').empty().append(
         $('<div>').addClass('content').attr('id', 'profile-space')
-    )
+)
+
     $('#profile-space').on('scroll', function (event) {
         let page = $('#profile-space').scrollLeft() / window.innerWidth;
         if ((Math.abs(page - currentPage) > 1)) {
@@ -259,11 +260,15 @@ function setupProfileSpace() {
         if (page == loadedProfiles.size - 1 && !loading) { // We have just scrolled to the last page
             loadMore();
         }
-    });
+    })
 }
 
 $('#splash-button').on('click', function () {
     $('input[type=file]').trigger('click');
+});
+
+$('button').on('click', function () {
+    $('./calendar.js').trigger('click');
 });
 
 $('input[type=file]').change(function (e) {

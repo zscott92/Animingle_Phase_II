@@ -35,6 +35,7 @@ class Profile {
                 $('<img>').attr('src', this.image_url),
                 $('<h2>').addClass('profile-name').text(this.name),
                 $('<p>').text(this.bio),
+                $('<button>').text('Schedule Date'),
             )
         );
     }
