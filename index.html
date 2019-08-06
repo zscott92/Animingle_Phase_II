@@ -8,21 +8,66 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <title>Date Anime's Today!!</title>
+    <title>Animingle</title>
 </head>
 
 <body>
-    <div id="display-area">
+    <div class="wrapper">
+        <nav class="navbar is-primary is-purple" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://bulma.io">
+                    <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+                </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" id="home-button">
+                        Home
+                    </a>
+
+                    <a class="navbar-item" id="about-button">
+                        About
+                    </a>
+                </div>
+            </div>
+        </nav>
         <div class="splash">
-            <section id="splashSection">
-                <h1 id="splashTitle">Animengle</h1>
-                <a class="button is-primary" id="splash-button">Start</a>
-            </section>
+            <div id="display-area">
+                <section id="splashSection">
+                    <h1 id="splashTitle">Animingle</h1>
+                    <a class="button is-primary" id="splash-button">Start</a>
+                </section>
+            </div>
         </div>
-    </div>
-    <!-- <div class="content" id="profile-space">
+        <!-- <div class="content" id="profile-space">
         
     </div> -->
+    </div>
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Welcome to Animingle</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <h3>Animingle is an app to help people find their ideal anime relationships.</h3>
+                <h4>Our algorithm can find the perfect match with just a picture of your face.</h4>
+                <h4>Just press start and upload a photo to begin!</h4>
+            </section>
+            <!-- <footer class="modal-card-foot">
+                <button class="button is-success">Save changes</button>
+                <button class="button">Cancel</button>
+            </footer> -->
+        </div>
+    </div>
+
     <input type="file" id="file-upload">
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"

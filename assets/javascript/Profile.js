@@ -32,10 +32,11 @@ class Profile {
     buildNode() {
         return $('<div>').addClass('profile').append(
             $('<div>').addClass('image profile-picture').append(
-                $('<img>').attr('src', this.image_url),
-                $('<h2>').addClass('profile-name').text(this.name),
-                $('<p>').text(this.bio),
-            )
+                $('<img>').attr('src', this.image_url)
+            ),
+            $('<h2>').addClass('profile-name').text(this.name),
+            $('<p>').addClass('bio').text(this.bio),
+
         );
     }
 }
