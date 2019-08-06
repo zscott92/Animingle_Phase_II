@@ -24,17 +24,17 @@
     </tr>
     <tr>
       <td class="day"><span class="number">31</span></td>
-      <td class="day"><span class="number">1</span></td>
-      <td class="day"><span class="number">2</span></td>
-      <td class="day"><span class="number">3</span></td>
-      <td class="day"><span class="number">4</span></td>
-      <td class="day"><span class="number">5</span></td>
-      <td class="day"><span class="number">6</span></td>
+      <td class="day"><span class="number">01</span></td>
+      <td class="day"><span class="number">02</span></td>
+      <td class="day"><span class="number">03</span></td>
+      <td class="day"><span class="number">04</span></td>
+      <td class="day"><span class="number">05</span></td>
+      <td class="day"><span class="number">06</span></td>
     </tr>
     <tr>
-      <td class="day"><span class="number">7</span></td>
-      <td class="day"><span class="number">8</span></td>
-      <td class="day"><span class="number">9</span></td>
+      <td class="day"><span class="number">07</span></td>
+      <td class="day"><span class="number">08</span></td>
+      <td class="day"><span class="number">09</span></td>
       <td class="day"><span class="number">10</span></td>
       <td class="day"><span class="number">11</span></td>
       <td class="day"><span class="number">12</span></td>
@@ -62,17 +62,17 @@
       <td class="day"><span class="number">28</span></td>
       <td class="day today"><span class="number">29</span></td>
       <td class="day"><span class="number">30</span></td>
-      <td class="day"><span class="number">1</span></td>
-      <td class="day"><span class="number">2</span></td>
-      <td class="day"><span class="number">3</span></td>
-      <td class="day"><span class="number">4</span></td>
+      <td class="day"><span class="number">01</span></td>
+      <td class="day"><span class="number">02</span></td>
+      <td class="day"><span class="number">03</span></td>
+      <td class="day"><span class="number">04</span></td>
     </tr>
     <tr>
-      <td class="day"><span class="number">5</span></td>
-      <td class="day"><span class="number">6</span></td>
-      <td class="day"><span class="number">7</span></td>
-      <td class="day"><span class="number">8</span></td>
-      <td class="day"><span class="number">9</span></td>
+      <td class="day"><span class="number">05</span></td>
+      <td class="day"><span class="number">06</span></td>
+      <td class="day"><span class="number">07</span></td>
+      <td class="day"><span class="number">08</span></td>
+      <td class="day"><span class="number">09</span></td>
       <td class="day"><span class="number">10</span></td>
       <td class="day"><span class="number">11</span></td>
     </tr>
@@ -196,8 +196,10 @@
             var event = events[i];
             var when = event.start.dateTime;
             var dayIsolated = when.substr(6, 8);
-            console.log(dayIsolated.match(number));
-            if (dayIsolated === number) {
+            console.log(dayIsolated);
+            var calendarNumber = document.getElementsByClassName(number).innerHTML;
+            console.log(calendarNumber);
+            if (dayIsolated === calendarNumber) {
               $(".number").append('<span class = "eventScheduled">' + event.summary + '</span>');
             }
             else {
