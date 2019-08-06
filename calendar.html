@@ -196,8 +196,8 @@
             var event = events[i];
             var when = event.start.dateTime;
             var dayIsolated = when.substr(6, 8);
-            document.write(dayIsolated.match(number));
-            if (match) {
+            console.log(dayIsolated.match(number));
+            if (dayIsolated === number) {
               $(".number").append('<span class = "eventScheduled">' + event.summary + '</span>');
             }
             else {
