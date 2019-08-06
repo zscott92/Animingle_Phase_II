@@ -81,7 +81,7 @@
   <button id="signout_button" style="display: none;">Sign Out</button>
 
   <pre id="content" style="white-space: pre-wrap;"></pre>
-  
+
   <script type="text/javascript">
     // Client ID and API key from the Developer Console
     var CLIENT_ID = '797197574459-gjplmd8gg1vc9i82n4ok5p67m925n863.apps.googleusercontent.com';
@@ -106,8 +106,9 @@
      *  Initializes the API client library and sets up sign-in state
      *  listeners.
      */
-    var authorizeButton = $("#authorize_button");
-    var signoutButton = $("#signout_button");
+
+    var authorizeButton = document.getElementById('authorize_button');
+    var signoutButton = document.getElementById('signout_button');
 
     function handleClientLoad() {
         gapi.load('client:auth2', initClient);
