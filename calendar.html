@@ -183,7 +183,7 @@
             var calendarNumber = String(document.getElementsByClassName("number")[i].innerHTML);
             console.log(calendarNumber);
             if (dayIsolated === calendarNumber) {
-              $(".number").append('<span class = "eventScheduled">' + event.summary + '</span>');
+              $(".number").val(dayIsolated).append('<span class = "eventScheduled">' + event.summary + '</span>');
             }
           }
         }
