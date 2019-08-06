@@ -22,20 +22,16 @@
     </tr>
     <tr>
       <td class="day"><span class="number">31</span></td>
-      <td class="day"><span class="number">1</span><span class="event"></span><span class="event"></span></td>
+      <td class="day"><span class="number">1</span></td>
       <td class="day"><span class="number">2</span></td>
-      <td class="day"><span class="number">3</span><span class="event event-multiday-start"></span></td>
-      <td class="day"><span class="number">4</span><span class="event event-multiday"></span><span
-          class="event event-multiday-start eventclass" style="background-color:#5a9ab2;"></span><span class="event">
-      </td>
-      <td class="day"><span class="number">5</span><span class="event event-multiday-finish"></span><span
-          class="event event-multiday eventclass" style="background-color:#5a9ab2;"></span></td>
-      <td class="day"><span class="number">6</span><span class="event event-ghost"></span><span
-          class="event event-multiday-finish eventclass" style="background-color:#5a9ab2;"></span></td>
+      <td class="day"><span class="number">3</span></td>
+      <td class="day"><span class="number">4</span></td>
+      <td class="day"><span class="number">5</span></td>
+      <td class="day"><span class="number">6</span></td>
     </tr>
     <tr>
       <td class="day"><span class="number">7</span></td>
-      <td class="day"><span class="number">8</span><span class="event"></span></td>
+      <td class="day"><span class="number">8</span></td>
       <td class="day"><span class="number">9</span></td>
       <td class="day"><span class="number">10</span></td>
       <td class="day"><span class="number">11</span></td>
@@ -45,8 +41,8 @@
     <tr>
       <td class="day"><span class="number">14</span></td>
       <td class="day"><span class="number">15</span></td>
-      <td class="day"><span class="number">16</span><span class="event"></span></td>
-      <td class="day"><span class="number">17</span><span class="event"></span></td>
+      <td class="day"><span class="number">16</span></td>
+      <td class="day"><span class="number">17</span></td>
       <td class="day"><span class="number">18</span></td>
       <td class="day"><span class="number">19</span></td>
       <td class="day"><span class="number">20</span></td>
@@ -58,14 +54,11 @@
       <td class="day"><span class="number">24</span></td>
       <td class="day"><span class="number">25</span></td>
       <td class="day"><span class="number">26</span></td>
-      <td class="day"><span class="number">27</span><span class="event event-multiday-start"
-          style="background-color:#da5f5f;"></td>
+      <td class="day"><span class="number">27</span></td>
     </tr>
     <tr>
-      <td class="day"><span class="number">28</span><span class="event event-multiday"
-          style="background-color:#da5f5f;"></td>
-      <td class="day today"><span class="number">29</span><span class="event event-multiday-finish"
-          style="background-color:#da5f5f;"></td>
+      <td class="day"><span class="number">28</span></td>
+      <td class="day today"><span class="number">29</span></td>
       <td class="day"><span class="number">30</span></td>
       <td class="day"><span class="number">1</span></td>
       <td class="day"><span class="number">2</span></td>
@@ -74,7 +67,7 @@
     </tr>
     <tr>
       <td class="day"><span class="number">5</span></td>
-      <td class="day"><span class="number">6</span><span class="event"></span></td>
+      <td class="day"><span class="number">6</span></td>
       <td class="day"><span class="number">7</span></td>
       <td class="day"><span class="number">8</span></td>
       <td class="day"><span class="number">9</span></td>
@@ -173,32 +166,36 @@
      * the authorized user's calendar. If no events are found an
      * appropriate message is printed.
      */
+    var number = $(".number");
     function listUpcomingEvents() {
       gapi.client.calendar.events.list({
         'calendarId': 'primary',
         'timeMin': (new Date()).toISOString(),
         'showDeleted': false,
         'singleEvents': true,
-        'timeMax': '2019-08-31T11:59:59Z',
+        'timeMax': '2019-08-31T23:59:59Z',
         'orderBy': 'startTime'
       }).then(function (response) {
         var events = response.result.items;
-        appendPre('Upcoming events:');
-
         if (events.length > 0) {
           for (i = 0; i < events.length; i++) {
             var event = events[i];
             var when = event.start.dateTime;
             if (!when) {
               when = event.start.date;
-            }
-            appendPre(event.summary + ' (' + when + ')')
+              var dayIsolated = when.substr(6,8);
+              document.write(dayIsolated.match(number));
+              if(match){
+                $(".number").append('<span class = "eventScheduled">' + event.summary + '</span>');
+              }
           }
-        } else {
+         else {
           appendPre('No upcoming events found.');
         }
-      });
+      }
     }
+  });
+}
     // var timestamp = function (date) {
     //   var pad = function (amount, width) {
     //     var padding = "";

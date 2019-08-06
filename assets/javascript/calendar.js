@@ -1,16 +1,11 @@
 $(document).ready(function() {
 		
     $('#calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,basicWeek,basicDay'
-        },
-        defaultDate: '2016-12-12',
+        defaultDate: '2019-08-07',
         navLinks: true, // can click day/week names to navigate views
         editable: true,
         eventLimit: true, // allow "more" link when too many events
-        events: [
+        event: [
             {
                 title: 'All Day Event',
                 start: '2016-12-01'
