@@ -77,6 +77,9 @@
       <td class="day"><span class="number">11</span></td>
     </tr>
   </table>
+  <button id="authorize_button" style="display: none;">Authorize</button>
+  <button id="signout_button" style="display: none;">Sign Out</button>
+
   <script type="text/javascript">
     // Client ID and API key from the Developer Console
     var CLIENT_ID = '797197574459-gjplmd8gg1vc9i82n4ok5p67m925n863.apps.googleusercontent.com';
@@ -101,6 +104,9 @@
      *  Initializes the API client library and sets up sign-in state
      *  listeners.
      */
+    var authorizeButton = $("#authorizeButton");
+    var signoutButton = $("#signoutButton");
+  
     function initClient() {
       gapi.client.init({
         apiKey: API_KEY,
@@ -116,7 +122,7 @@
         authorizeButton.onclick = handleAuthClick;
         signoutButton.onclick = handleSignoutClick;
       }, function (error) {
-        appendPre(JSON.stringify(error, null, 2));
+        $(".day").append(JSON.stringify(error, null, 2));
       });
     }
 
@@ -124,6 +130,8 @@
      *  Called when the signed in status changes, to update the UI
      *  appropriately. After a sign-in, the API is called.
      */
+    var isSignedIn;
+
     function updateSigninStatus(isSignedIn) {
       if (isSignedIn) {
         authorizeButton.style.display = 'none';
