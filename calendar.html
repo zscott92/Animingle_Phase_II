@@ -58,24 +58,6 @@
       <td class="day"><span class="number">26</span></td>
       <td class="day"><span class="number">27</span></td>
     </tr>
-    <tr>
-      <td class="day"><span class="number">28</span></td>
-      <td class="day today"><span class="number">29</span></td>
-      <td class="day"><span class="number">30</span></td>
-      <td class="day"><span class="number">01</span></td>
-      <td class="day"><span class="number">02</span></td>
-      <td class="day"><span class="number">03</span></td>
-      <td class="day"><span class="number">04</span></td>
-    </tr>
-    <tr>
-      <td class="day"><span class="number">05</span></td>
-      <td class="day"><span class="number">06</span></td>
-      <td class="day"><span class="number">07</span></td>
-      <td class="day"><span class="number">08</span></td>
-      <td class="day"><span class="number">09</span></td>
-      <td class="day"><span class="number">10</span></td>
-      <td class="day"><span class="number">11</span></td>
-    </tr>
   </table>
   <button id="authorize_button" style="display: none;">Authorize</button>
   <button id="signout_button" style="display: none;">Sign Out</button>
@@ -187,7 +169,7 @@
         'timeMin': (new Date()).toISOString(),
         'showDeleted': false,
         'singleEvents': true,
-        'maxResults': 10,
+        'maxResults': 40,
         'timeMax': '2019-08-30T23:59:59Z',
         'orderBy': 'startTime'
       }).then(function (response) {
