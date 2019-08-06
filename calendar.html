@@ -6,11 +6,8 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="assets/css/style.css">
   <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700' rel='stylesheet' type='text/css'>
-  <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
-    ></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -92,12 +89,10 @@
     // included, separated by spaces.
     var SCOPES = "https://www.googleapis.com/auth/calendar";
 
-    var authorizeButton = document.getElementById('authorize_button');
-    var signoutButton = document.getElementById('signout_button');
-
     /**
      *  On load, called to load the auth2 library and API client library.
      */
+
     function handleClientLoad() {
       gapi.load('client:auth2', initClient);
     }
@@ -160,11 +155,11 @@
      *
      * @param {string} message Text to be placed in pre element.
      */
-    function appendPre(message) {
-      var pre = document.getElementById('content');
-      var textContent = document.createTextNode(message + '\n');
-      pre.appendChild(textContent);
-    }
+    // function appendPre(message) {
+    //   var pre = document.getElementById('content');
+    //   var textContent = document.createTextNode(message + '\n');
+    //   pre.appendChild(textContent);
+    // }
 
     /**
      * Print the summary and start datetime/date of the next ten events in
@@ -186,21 +181,18 @@
           for (i = 0; i < events.length; i++) {
             var event = events[i];
             var when = event.start.dateTime;
-            if (!when) {
-              when = event.start.date;
-              var dayIsolated = when.substr(6,8);
-              document.write(dayIsolated.match(number));
-              if(match){
-                $(".number").append('<span class = "eventScheduled">' + event.summary + '</span>');
-              }
+            var dayIsolated = when.substr(6, 8);
+            document.write(dayIsolated.match(number));
+            if (match) {
+              $(".number").append('<span class = "eventScheduled">' + event.summary + '</span>');
+            }
+            else {
+              $(".number").append('No upcoming events found.');
+            }
           }
-         else {
-          appendPre('No upcoming events found.');
         }
-      }
+      });
     }
-  });
-}
     // var timestamp = function (date) {
     //   var pad = function (amount, width) {
     //     var padding = "";
