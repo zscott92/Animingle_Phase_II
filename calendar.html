@@ -4,6 +4,7 @@
 <head>
   <title>Google Calendar API Quickstart</title>
   <meta charset="utf-8" />
+  <script src = "assets/javascript/calendar.js"></script>
 </head>
 
 <body>
@@ -11,10 +12,48 @@
           <div class="modal-background"></div>
           <div class="modal-card">
             <header class="modal-card-head">
-              <button class="delete" aria-label="close"></button>
+              Calendar
             </header>
             <section class="modal-card-body">
-              <!-- Content ... -->
+                <div class="ui container">
+                    <div class="ui menu">
+                      <div class="header item">Brand</div>
+                      <a class="active item">Link</a>
+                      <a class="item">Link</a>
+                      <div class="ui dropdown item">
+                        Dropdown
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                          <div class="item">Action</div>
+                          <div class="item">Another Action</div>
+                          <div class="item">Something else here</div>
+                          <div class="divider"></div>
+                          <div class="item">Separated Link</div>
+                          <div class="divider"></div>
+                          <div class="item">One more separated link</div>
+                        </div>
+                      </div>
+                      <div class="right menu">
+                        <div class="item">
+                          <div class="ui action left icon input">
+                            <i class="search icon"></i>
+                            <input type="text" placeholder="Search">
+                            <button class="ui button">Submit</button>
+                          </div>
+                        </div>
+                        <a class="item">Link</a>
+                      </div>
+                    </div>
+                  </div>
+                  <br/>
+                  <div class="ui container">
+                    <div class="ui grid">
+                      <div class="ui sixteen column">
+                        <div id="calendar"></div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
             </section>
             <footer class="modal-card-foot">
                 <button id="authorize_button" style="display: none;">Authorize</button>
@@ -22,11 +61,6 @@
               <button class="button is-success">Save changes</button>
               <button class="button">Cancel</button>
             </footer>
-          </div>
-        </div>
-
-      <pre id="content" style="white-space: pre-wrap;"></pre>
-    </div>
     <button class="modal-close is-large" aria-label="close"></button>
   </div>
   <script type="text/javascript">
