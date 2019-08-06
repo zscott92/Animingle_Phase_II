@@ -195,9 +195,9 @@
           for (i = 0; i < events.length; i++) {
             var event = events[i];
             var when = event.start.dateTime;
-            var dayIsolated = when.substr(6, 8);
+            var dayIsolated = when.substr(5, 2);
             console.log(dayIsolated);
-            var calendarNumber = document.getElementsByClassName(number).innerHTML;
+            var calendarNumber = document.getElementsByClassName("number").innerHTML;
             console.log(calendarNumber);
             if (dayIsolated === calendarNumber) {
               $(".number").append('<span class = "eventScheduled">' + event.summary + '</span>');
