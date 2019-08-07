@@ -205,19 +205,15 @@ function loadMore() {
 }
 
 function drawLoadScreen() {
-  if (!loading) {
-    loading = true;
-    $("#profile-space").append(
-      $("<div>")
-        .addClass("profile splash")
-        .attr("id", "loading-card")
-        .append(
-          $(
-            '<progress class="progress is-small is-primary loading-bar" max="100">'
-          )
-        )
-    );
-  }
+    if (!loading) {
+        loading = true;
+        $('#profile-space').append(
+            $('<div>').addClass('profile').attr('id', 'loading-card').append(
+                $('<div class="loading-filler">'),
+                $('<progress class="progress is-small is-primary loading-bar" max="100">')
+            )
+        );
+    }
 }
 
 // // for debugging
@@ -257,46 +253,122 @@ function requestFaceData(selectImgFile) {
   });
 }
 
+let leftButtonStatus = false;
+let rightButtonStatus = true;
+let scrollSnapEnabled = true;
+
 let currentPage = 0;
 function setupProfileSpace() {
-  $("#display-area")
-    .empty()
-    .append(
-      $("<div>")
-        .addClass("content")
-        .attr("id", "profile-space")
-    );
+    $('#display-area').empty().css({height: 'initial'}).append(
+        $('<div>').addClass('scroll-button-wrapper scroll-left').append(
+            $('<a>').addClass('button scroll-button is-static').attr('data-scroll', '-1').append(
+                $('<i class="fas fa-angle-left">')
+            )
+        ),
+        $('<div>').addClass('content').attr('id', 'profile-space'),
+        $('<div>').addClass('scroll-button-wrapper scroll-right').append(
+            $('<a>').addClass('button scroll-button').attr('data-scroll', '1').append(
+                $('<i class="fas fa-angle-right">')
+            )
+        ),
+    )
+    $('#profile-space').scrollLeft(0);
 
-  $("#profile-space").on("scroll", function(event) {
-    let page = $("#profile-space").scrollLeft() / window.innerWidth;
-    if (Math.abs(page - currentPage) > 1) {
-      page = Math.floor(page) + (currentPage - page > 1 ? 1 : 0);
-      $("#profile-space").css({ overflow: "hidden" });
-      setTimeout(function() {
-        $("#profile-space").css({ overflow: "" });
-      }, 10);
+    // bind events
+    $('#profile-space').on('scroll', function (event) {
+        const margin = parseInt($('.profile').css('margin-left').replace('px','') * 2);
+        const profileSpace = $('#profile-space')
+        const width = profileSpace.width() + margin;
+        let page = (profileSpace.scrollLeft() + margin / 2) / width;
+        const pageInt = Math.floor(page);
+        const pageCiel = Math.ceil(page);
+        if (pageInt <= 0 && leftButtonStatus) {
+            leftButtonStatus = false;
+            $('.scroll-button-wrapper.scroll-left .button').addClass('is-static');
+        } else if ( pageInt != 0 && !leftButtonStatus ) {
+            leftButtonStatus = true;
+            $('.scroll-button-wrapper.scroll-left .button').removeClass('is-static');
+        }
+        
+        if (pageCiel == loadedProfiles.size && rightButtonStatus) {
+            rightButtonStatus = false;
+            $('.scroll-button-wrapper.scroll-right button').addClass('is-static');
+        } else if ( pageCiel != loadedProfiles.size && !rightButtonStatus) {
+            rightButtonStatus = true;
+            $('.scroll-button-wrapper.scroll-right button').removeClass('is-static');
+        }
 
-      $("#profile-space").scrollLeft(page * window.innerWidth);
-      console.log("scrolling locked to page " + page);
-    }
+        if (scrollSnapEnabled) {
+            if ((Math.abs(page - currentPage) > 1)) {
+    
+                page = Math.floor(page) + (currentPage - page > 1 ? 1 : 0);
+                profileSpace.css({ 'overflow-x': 'hidden' });
+                setTimeout(function () {
+                    $('#profile-space').css({ 'overflow-x': '' })
+                }, 10);
+    
+                profileSpace.scrollLeft(page * width - margin / 2);
+                console.log('scrolling locked to page ' + page)
+            }
+        }
 
-    if (!(page % 1) && page != currentPage) {
-      // we have scrolled to a new page
-      console.log(page);
-      console.log(currentPage);
-      $(`#profile-space .profile:nth-child(${currentPage + 1})`).scrollTop(0);
-      currentPage = page;
-    }
+        if (!(page % 1) && page != currentPage) { // we have scrolled to a new page
+            console.log(page);
+            console.log(currentPage);
+            $(`#profile-space .profile:nth-child(${currentPage + 1})`).scrollTop(0);
+            currentPage = page;
+        }
 
-    if (page == loadedProfiles.size - 1 && !loading) {
-      // We have just scrolled to the last page
-      loadMore();
-    }
-  });
+        if (pageCiel == loadedProfiles.size && !loading) { // We have just scrolled to the last page
+            loadMore();
+        }
+    });
+    $('.scroll-button').on('click', function(event) {
+        console.log('scroll');
+        scrollSnapEnabled = false;
+        new Promise(resolve => setTimeout(resolve, 100)).then(
+            x => scrollSnapEnabled = true
+        )
+        const profileSpace = $('#profile-space');
+        const scrollIncrement = profileSpace.width();
+        profileSpace.scrollLeft(profileSpace.scrollLeft() + parseInt($(this).attr('data-scroll')) * scrollIncrement);
+    });
 }
 
-$("#splash-button").on("click", function() {
-  $("input[type=file]").trigger("click");
+$('#about-button').on('click', function() {
+    $('.modal').toggleClass('is-active');
+});
+
+$('.delete').on('click', function() {
+    $('.modal').toggleClass('is-active');
+})
+
+$('#splash-button').on('click', function () {
+    $('input[type=file]').trigger('click');
+});
+
+$('#home-button').on('click', function() {
+    console.log('debug');
+    location.reload();
+});
+
+$('input[type=file]').change(function (e) {
+    // const vals = $(this).val();
+    // val = vals.length ? vals.split('\\').pop() : '';
+    // const fr = new FileReader();
+    // const bin = fr.readAsBinaryString(val);
+    const path = $(this).val();
+    const match = path.match(/\.(png|jpg|jpeg|gif)$/);
+    if (match) {
+        setupProfileSpace();
+        drawLoadScreen();
+        requestFaceData(e.target.files[0]).then(
+            function (results) {
+                faceData = JSON.parse(results);
+                loadMore();
+            }
+        );
+    }
 });
 
 

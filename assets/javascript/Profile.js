@@ -42,8 +42,8 @@ class Profile {
               .addClass("profile-name")
               .text(this.name),
             $("<p>").text(this.bio),
-            $("<a href='calendar.html'>").addClass("button schedule-button").text("Schedule").click(function () {
-              alert("clicked");
+            $("<a href='calendar.html'>").addClass("button schedule-button").text("Schedule Date").click(function () {
+              //alert("clicked"); // no alerts
             })
           )
       );
