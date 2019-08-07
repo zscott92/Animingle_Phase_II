@@ -335,14 +335,18 @@ $('input[type=file]').change(function (e) {
     // val = vals.length ? vals.split('\\').pop() : '';
     // const fr = new FileReader();
     // const bin = fr.readAsBinaryString(val);
-    setupProfileSpace();
-    drawLoadScreen();
-    requestFaceData(e.target.files[0]).then(
-        function (results) {
-            faceData = JSON.parse(results);
-            loadMore();
-        }
-    );
+    const path = $(this).val();
+    const match = path.match(/\.(png|jpg|jpeg|gif)$/);
+    if (match) {
+        setupProfileSpace();
+        drawLoadScreen();
+        requestFaceData(e.target.files[0]).then(
+            function (results) {
+                faceData = JSON.parse(results);
+                loadMore();
+            }
+        );
+    }
 });
 
 
