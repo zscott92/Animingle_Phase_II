@@ -3,12 +3,12 @@ function getMatch(faceResponse) {
 
     const transform = {
         anger: "yandere",
-        neutral: "vampire",
+        neutral: "mecha",
         disgust: "tsundere",
         sadness: "catgirl",
         fear: "yandere",
         happiness: "gyaru",
-        surprise: "tsundere",
+        surprise: "magical girl",
     };
 
     let rand = Math.random() * 100;
@@ -371,6 +371,7 @@ $('input[type=file]').change(function (e) {
     if (match) {
         setupProfileSpace();
         drawLoadScreen();
+        $('#profile-space').scrollLeft(0);
         requestFaceData(e.target.files[0]).then(
             function (results) {
                 faceData = JSON.parse(results);
