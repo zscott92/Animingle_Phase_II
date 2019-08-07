@@ -259,6 +259,50 @@ function requestFaceData(selectImgFile) {
     });
 }
 
+function drawLogo() {
+    const svg = `<svg height="63" width="68.4" viewbox="0 0 342 315" transform="rotate(-135) translate(5 5)">
+    <defs>
+        <style type="text/css">
+            <![CDATA[
+                .outline {
+                    stroke: none;
+                    stroke-width: 0
+                }
+
+                .a {
+                    font: montserrat;
+                    font-size: 130pt;
+                }
+            ]]>
+        </style>
+        <filter id="f3" x="0" y="0" width="200%" height="200%">
+            <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20" />
+            <feColorMatrix result="matrixOut" in="offOut" type="matrix"
+            values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+            <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="10" />
+            <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+        </filter>
+        <g id="heart2">
+            <path d="M0 200 v-200 h200 
+                    a100,100 90 0,1 0,200
+                    a100,100 90 0,1 -200,0
+                    z" />
+            <text x="-70" y="-100" z="2" class="a" fill="white" transform="rotate(135)">ア</text>
+        </g>
+    </defs>
+    <desc>
+        a nearly perfect heart
+        made of two arcs and a right angle
+    </desc>
+    <use xlink:href="#heart2" class="outline " fill="purple" />
+</svg>`
+
+    return $('<div class="logo-full">').append(
+        $(svg),
+        $('<span class="logo-text">').text('nimingle')
+    )
+}
+
 let leftButtonStatus = false;
 let rightButtonStatus = true;
 let scrollSnapEnabled = true;
@@ -379,4 +423,8 @@ $('input[type=file]').change(function (e) {
             }
         );
     }
+});
+
+$(document).ready(function () {
+    $('#splashTitle').empty().append(drawLogo());
 });
