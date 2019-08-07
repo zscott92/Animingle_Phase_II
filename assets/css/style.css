@@ -40,6 +40,15 @@
     margin: 0 auto;
 }
 
+.profile-name {
+    margin-top: 1.1428em;
+    font-size: 1.75em;
+    margin-bottom: .5714em;
+    color: #363636;
+    font-weight: 600;
+    line-height: 1.125;
+}
+
 .text {
     font-size: 18px;
 }
@@ -166,8 +175,94 @@ a {
     display: none;
 }
 
+body {
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+    font-family: 'Ubuntu', 'Helvetica';
+    /*border-collapse: collapse;*/
+    border-spacing: 0;
+    background-color: purple;
+}
+
+th, td {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+}
+
+th {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 10px 0;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: #292929;
+    letter-spacing: 1px;
+}
+
+td {
+    width: 14.285%;
+    transition: all 0.3s;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+    font-size: 10px;
+    padding: 1.5% 1.5% 5%;
+    vertical-align: initial;
+    padding: 1.5% 0;
+    height: 120px;
+}
+
+.day:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.today {
+    color: #FFF;
+    background-color: rgba(0, 0, 0, .25) !important;
+}
+
+span.number {
+    margin-left: 10%
+}
+
+span.event {
+    height: 4px;
+    background-color: rgba(0, 0, 0, .3);
+    display: block;
+    margin: 5px 10%;
+    border-radius: 2px;
+    background-color: #91c33b;
+}
+
+span.event-multiday {
+    margin: 5px -2px;
+    border-radius: 0;
+}
+
+span.event-multiday-start {
+    margin-right: -4px;
+}
+
+span.event-multiday-finish {
+    margin-left: -4px;
+}
+
+span.event-ghost {
+    background-color: transparent;
+}
+
+.cal {
+    background: darkorchid;
+}
+
 @media screen and (min-width: 960px) {
-    .scroll-button-wrapper{
+    .scroll-button-wrapper {
         display: block;
         opacity: .8;
     }
@@ -185,7 +280,6 @@ a {
         opacity: 0;
         transition: opacity .5s;
     }
-
     .navbar {
         display: flex;
     }
@@ -197,7 +291,6 @@ a {
     #display-area {
         display: flex;
         flex-direction: row;
-        
     }
     .profile {
         height: 100%;
@@ -230,10 +323,14 @@ a {
         padding: 1.25rem;
         grid-column-start: 2;
         grid-row-start: 1;
-        grid-row-end: span 2;
+        grid-row-end: span 1;
         /* width: calc( 100% - 1rem); */
         overflow-y: scroll;
         /* max-height: 497.77px; */
+    }
+    .schedule-button {
+        grid-row-start: 2;
+        grid-column-start: 2;
     }
     .splash::before {
         background-position-y: -300px;
