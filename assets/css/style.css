@@ -51,9 +51,9 @@ a {
     margin: 15px;
 }
 
-/* #display-area {
+#display-area {
     height: 100%;
-} */
+}
 
 .scroll-button-wrapper {
     display: none;
@@ -197,7 +197,7 @@ a {
     #display-area {
         display: flex;
         flex-direction: row;
-        height: 100%;
+        
     }
     .profile {
         height: 100%;

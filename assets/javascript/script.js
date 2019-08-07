@@ -5,9 +5,9 @@ function getMatch(faceResponse) {
         anger: "yandere",
         neutral: "deredere",
         disgust: "tsundere",
-        sadness: "kuudere",
+        sadness: "catgirl",
         fear: "yandere",
-        happiness: "moe",
+        happiness: "gyaru",
         surprise: "tsundere",
     }
 
