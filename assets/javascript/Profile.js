@@ -37,7 +37,7 @@ class Profile {
             ),
             $('<h2>').addClass('profile-name').text(this.name),
             $('<p>').addClass('bio').text(this.bio),
-            $("<a href='calendar.html'>").addClass("button schedule-button is-primary").text("Schedule Date").click(function () {
+            $('<a href="calendar.html" target="_blank">').addClass('button schedule-button is-primary').text('Schedule Date').click(function () {
                 //alert("clicked"); // no alerts
             })
         );

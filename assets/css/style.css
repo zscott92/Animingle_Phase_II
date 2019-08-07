@@ -102,7 +102,7 @@ a {
     font-size: 30px;
     color: purple;
     z-index: 10;
-    text-shadow: 0 0 20px white;
+    /* text-shadow: 0 0 20px white; */
 }
 
 #splash-button {
@@ -259,6 +259,22 @@ span.event-ghost {
 
 .cal {
     background: darkorchid;
+}
+
+.logo-full {
+    position: relative;
+}
+
+.logo-text {
+    /* vertical-align:  middle; */
+    position: relative;
+    bottom: 16px;
+    font-size: 24pt;
+    color: purple;
+    text-shadow: 0 0 20px white;
+    font-family: Helvetica;
+    letter-spacing: 2px;
+    left: .2em;
 }
 
 @media screen and (min-width: 960px) {
