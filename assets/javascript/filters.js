@@ -7,8 +7,8 @@ profileFilters = [
   },
   function(p) {
     // filter by gender
-    const match = p.about.match(/(?:^|\s)(he|she|him|her)(?:\s|$)/i);
-    return !(match && ["he", "him"].includes(match[1].toLowerCase()));
+    const match = p.about.match(/(?:^|\s)(he|she|him|her|his)(?:\s|$)/i);
+    return !(match && ["he", "him", "his"].includes(match[1].toLowerCase()));
   },
   // Content filters
   function(p) {

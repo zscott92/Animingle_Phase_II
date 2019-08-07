@@ -13,8 +13,39 @@
     <div class="wrapper">
         <nav class="navbar is-primary is-purple" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="https://bulma.io">
-                    <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+                <a class="navbar-item" href="#">
+                    <svg height="31.5" width="34.2" viewbox="0 0 342 315" transform="rotate(-135) translate(5 5)">
+                        <!--342 315-->
+                        <defs>
+                            <style type="text/css">
+                                <![CDATA[
+                                .outline {
+                                    stroke: none;
+                                    stroke-width: 0
+                                }
+
+                                .a {
+                                    font: montserrat;
+                                    font-size: 130pt;
+                                }
+                                ]]>
+                            </style>
+                            <g id="heart">
+                                <path d="M0 200 v-200 h200 
+                                        a100,100 90 0,1 0,200
+                                        a100,100 90 0,1 -200,0
+                                        z" />
+                                <text x="-70" y="-100" z="2" class="a" fill="purple" transform="rotate(135)">ア</text>
+                            </g>
+
+                        </defs>
+
+                        <desc>
+                            a nearly perfect heart
+                            made of two arcs and a right angle
+                        </desc>
+                        <use xlink:href="#heart" class="outline " fill="white" />
+                    </svg>
                 </a>
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
                     data-target="navbarBasicExample">
