@@ -6,59 +6,13 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="assets/css/style.css">
   <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700' rel='stylesheet' type='text/css'>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <link href ='bootstrap-datepicker.standalone.css' rel='stylesheet' type='type/css'>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"/>
 </head>
 
 <body class = "cal">
 
-  <table>
-    <tr>
-      <th class="day-name">Sun</th>
-      <th class="day-name">Mon</th>
-      <th class="day-name">Tue</th>
-      <th class="day-name">Wed</th>
-      <th class="day-name">Thu</th>
-      <th class="day-name">Fri</th>
-      <th class="day-name">Sat</th>
-    </tr>
-    <tr>
-      <td class="day"><span class="number">31</span></td>
-      <td class="day"><span class="number">01</span></td>
-      <td class="day"><span class="number">02</span></td>
-      <td class="day"><span class="number">03</span></td>
-      <td class="day"><span class="number">04</span></td>
-      <td class="day"><span class="number">05</span></td>
-      <td class="day"><span class="number">06</span></td>
-    </tr>
-    <tr>
-      <td class="day"><span class="number">07</span></td>
-      <td class="day"><span class="number">08</span></td>
-      <td class="day"><span class="number">09</span></td>
-      <td class="day"><span class="number">10</span></td>
-      <td class="day"><span class="number">11</span></td>
-      <td class="day"><span class="number">12</span></td>
-      <td class="day"><span class="number">13</span></td>
-    </tr>
-    <tr>
-      <td class="day"><span class="number">14</span></td>
-      <td class="day"><span class="number">15</span></td>
-      <td class="day"><span class="number">16</span></td>
-      <td class="day"><span class="number">17</span></td>
-      <td class="day"><span class="number">18</span></td>
-      <td class="day"><span class="number">19</span></td>
-      <td class="day"><span class="number">20</span></td>
-    </tr>
-    <tr>
-      <td class="day"><span class="number">21</span></td>
-      <td class="day"><span class="number">22</span></td>
-      <td class="day"><span class="number">23</span></td>
-      <td class="day"><span class="number">24</span></td>
-      <td class="day"><span class="number">25</span></td>
-      <td class="day"><span class="number">26</span></td>
-      <td class="day"><span class="number">27</span></td>
-    </tr>
-  </table>
+  <input class="datepicker" data-date-format="mm/dd/yyyy">
   <button id="authorize_button" style="display: none;">Authorize</button>
   <button id="signout_button" style="display: none;">Sign Out</button>
   <button id="event_button" style = "display: none;">Add Event</button>
@@ -172,7 +126,7 @@
         'showDeleted': false,
         'singleEvents': true,
         'maxResults': 50,
-        'timeMax': '2019-08-30T23:59:59Z',
+        'timeMax': '2020-31-12T23:59:59Z',
         'orderBy': 'startTime'
       }).then(function (response) {
         var events = response.result.items;
@@ -246,6 +200,12 @@
 var request = gapi.client.calendar.events.insert({
   'calendarId': 'primary',
   'resource': addEvent
+});
+request.execute(function(event) {
+$.fn.datepicker.defaults.format = "mm/dd/yyyy";
+$('.datepicker').datepicker({
+    startDate: '-3d'
+});
 });
 
 request.execute(function(event) {

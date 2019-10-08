@@ -88,7 +88,8 @@ a {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    filter: blur(2px);
+    filter: blur(1.65px);
+    background-color: #111111;
 }
 
 #splashTitle {
@@ -100,9 +101,10 @@ a {
     font-family: Impact, sans-serif;
     padding-bottom: 25px;
     font-size: 30px;
-    color: purple;
+    color: indigo;
+    font-weight: 600;
     z-index: 10;
-    /* text-shadow: 0 0 20px white; */
+    text-shadow: 0 0 20px darkgray;
 }
 
 #splash-button {
